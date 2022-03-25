@@ -1,8 +1,7 @@
 package com.sparta.week03.controller;
 
-import com.sparta.week03.Service.BlogService;
 import com.sparta.week03.domain.Blog;
-import com.sparta.week03.domain.BlogRepository;
+import com.sparta.week03.repository.BlogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

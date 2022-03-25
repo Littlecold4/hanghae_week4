@@ -1,5 +1,6 @@
 package com.sparta.week03.domain;
 
+import com.sparta.week03.dto.BlogRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

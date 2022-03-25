@@ -8,6 +8,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css">
 
     <style>
         @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
@@ -480,10 +481,6 @@
             let title = $('#contents_title').val();
             let contents = $('#contents_contents').val();
             // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
-            if (isValidContents(username) == false) {
-                alert("이름을 입력하세요");
-                return;
-            }
             if (isValidContents(title) == false) {
                 alert("제목을 입력하세요");
                 return;
@@ -524,22 +521,27 @@
 </div>
 <div class="wrap" id="wrap">
     <div class="header">
-        <h2>Minwoo's blog</h2>
+        <div id="header-title-login-user">
+            <span th:text="${username}"></span> 님의 블로그
+        </div>
         <p>
             장민우님의 블로그입니다
             24시간이 지난 뒤에는 절대 사라지지 않습니다.
         </p>
+        <form id="my_form" method="post" action="/user/logout">
+            <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>
+        </form>
         <button onclick="showpost()">게시글 작성하기</button>
     </div>
     <div class="area-write" id="area-write">
         <textarea class="field_n" placeholder="제목" name="contents" id="contents_title" cols="30"
                   rows="10"></textarea>
-        <textarea class="field_n" placeholder="작성자명" name="contents" id="contents_name" cols="30"
-                  rows="10"></textarea>
+        <p th:text="'작성자: '+${username}" class="field_n" name="contents" style="background-color: white; color: #868e96" id="contents_name" cols="30"
+                  rows="10"></p>
         <textarea class="field" placeholder="내용" name="contents" id="contents_contents" cols="30"
                   rows="10"></textarea>
         <!--            <button class="btn btn-danger" onclick="writePost()">작성하기</button>-->
-        <img src="images/send.png" alt="" onclick="writePost()">
+        <img src="../static/images/send.png" alt="" onclick="writePost()">
     </div>
     <div id="cards-box" class="area-read">
     </div>

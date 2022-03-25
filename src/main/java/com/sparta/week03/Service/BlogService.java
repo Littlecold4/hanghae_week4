@@ -1,8 +1,8 @@
 package com.sparta.week03.Service;
 
 import com.sparta.week03.domain.Blog;
-import com.sparta.week03.domain.BlogRepository;
-import com.sparta.week03.domain.BlogRequestDto;
+import com.sparta.week03.repository.BlogRepository;
+import com.sparta.week03.dto.BlogRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

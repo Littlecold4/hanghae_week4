@@ -2,16 +2,12 @@ package com.sparta.week03.controller;
 
 import com.sparta.week03.Service.BlogService;
 import com.sparta.week03.domain.Blog;
-import com.sparta.week03.domain.BlogRepository;
-import com.sparta.week03.domain.BlogRequestDto;
+import com.sparta.week03.repository.BlogRepository;
+import com.sparta.week03.dto.BlogRequestDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
