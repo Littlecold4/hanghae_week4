@@ -24,7 +24,10 @@ public class pageController {
         Blog blog = blogRepository.findById(id).orElseThrow(
                 ()->new NullPointerException()
         );
-        User user = userDetails.getUser();
+        User user = new User();
+        if(userDetails != null){
+            user = userDetails.getUser();
+        }
         model.addAttribute("response",blog);
         model.addAttribute("user",user);
         return "detail";

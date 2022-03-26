@@ -17,8 +17,8 @@ public class CommentController {
     private final CommentRepository commentRepository;
     private final CommentService commentService;
 
-    @GetMapping("/api/comment")
-    public List<Comment> readComment(Long blogId){
+    @GetMapping("/detail/api/comment/{blogId}")
+    public List<Comment> readComment(@PathVariable Long blogId){
         return commentRepository.findAllByBlogId(blogId);
     }
 

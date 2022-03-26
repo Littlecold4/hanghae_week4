@@ -26,6 +26,7 @@ public class BlogController {
 
     @GetMapping("/api/blogs")
     public List<Blog> readBlog() {
+
         return blogRepository.findAllByOrderByModifiedAtDesc();
     }
 

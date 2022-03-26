@@ -67,32 +67,60 @@
     </style>
     <script th:inline="javascript">
         /*<![CDATA[*/
-        var username = [[${response.username}]];
+        var blogname = [[${response.username}]];
         var id = [[${response.id}]];
+        var username =[[${user.username}]];
         var userid =[[${user.id}]];
     </script>
     <script>
         $(document).ready(function () {
             // HTML 문서를 로드할 때마다 실행합니다.
-
+            getComments(id);
+            console.log(id);
+            console.log(userid);
+            if(blogname !=username ){
+                $('#xbutton').hide();
+            }
         })
 
         function getComments(id){
             $.ajax({
                 type:"GET",
-                url:"api/comment",
+                url:"api/comment/"+id,
                 success: function (response){
                     for(let i=0; i<response.length;i++){
                         let comment = response[i];
-                        console.log(comment.title);
                         console.log(comment.content);
                         console.log(comment.name);
+                        let temp_html=``;
+                        if(blogname == username) {
+                            temp_html = `<div id="comment-box" class="comment-box" style="outline: black">
+                                            <p>내용:${comment.content}</p>
+                                            <p style="font-size: 5px">작성자 : ${comment.name}</p>
+                                            <button id="deletecomment">삭제</button>
+                                            <buttonid="updatecomment">수정</button>
+                                        </div>`
+                        }else{
+                            temp_html =`<div id="comment-box" class="comment-box" style="outline: black">
+                                            <p>내용:${comment.content}</p>
+                                            <p style="font-size: 5px">작성자 : ${comment.name}</p>
+                                        </div>`
+                        }
+                        $('#comment-list').append(temp_html);
                     }
                 }
             })
         }
         function createComments(){
+            if(username==null){
+                alert("로그인을 해주세요");
+                window.location.href="/user/login";
+            }
             let comment = $('#inputcomment').val();
+            if(comment==null){
+                alert("내용을 입력해주세요");
+                window.location.reload();
+            }
             console.log(comment,username,id);
             let data = {"name":username, "content":comment};
             $.ajax({
@@ -129,17 +157,18 @@
     <h1 th:text="'제목:'+ ${response.title}"></h1><br>
     <p class="username" th:text="'작성자:'+ ${response.username}"></p>
     <p class="username" th:text="'작성날짜:'+ ${response.modifiedAt}"></p><br>
-    <p class="username" th:text="'블로그 id:'+ ${response.id}"></p><br>
     <h2>내용</h2>
     <p class="contents" th:text="${response.contents}"></p><br>
 </diu>
 <div class ="comment">
-    <input placeholder="댓글을 입력해주세요" id="inputcomment">
+    <input placeholder="댓글을 입력해주세요" id="inputcomment" class ="inputcomment">
     <p class="username" th:text="'작성자:'+ ${user.username}"></p>
     <button onclick="createComments()">등록</button>
+    <div id="comment-list">
+    </div>
 </div>
 
-<button class="xbutton" th:onclick="|deleteBlogg(${response.id})|">지우기</button>
-<button class="bbutton" onclick="window.location.href='/'">뒤로가기</button>
+<button class="xbutton" id="xbutton" th:onclick="|deleteBlogg(${response.id})|">지우기</button>
+<button class="bbutton"  onclick="window.location.href='/'">뒤로가기</button>
 </body>
 </html>

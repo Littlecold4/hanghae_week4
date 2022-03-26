@@ -795,6 +795,15 @@ input[type=submit] {
     background-color: DodgerBlue;
     color: #fff;
 }
+.inputcomment{
+    width: 500px;
+    height : 20px
+}
+.comment-box{
+    outline: #212529;
+    outline-style: dashed;
+    outline-width1:5px ;
+}
 .autocomplete-items {
     position: absolute;
     border: 1px solid #d4d4d4;
