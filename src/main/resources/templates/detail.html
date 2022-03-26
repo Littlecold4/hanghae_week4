@@ -14,7 +14,8 @@
             height: 100%;
             background-color: #00aaff;
         }
-        .inheader{
+
+        .inheader {
             position: fixed;
             padding: 50px;
             width: 60%;
@@ -23,35 +24,40 @@
             border-top-right-radius: 200px;
             border-bottom-right-radius: 200px;
         }
-        .content >h1{
+
+        .content > h1 {
             text-underline: #212529;
             font-weight: bolder;
         }
-        .content .username{
-            font-size : 15px;
+
+        .content .username {
+            font-size: 15px;
             color: #868e96;
         }
-        .contents{
+
+        .contents {
             margin-top: 50px;
             font-size: 30px;
             width: 60%;
         }
-        .xbutton{
+
+        .xbutton {
             position: fixed;
             bottom: 10px;
             right: 20px;
             cursor: pointer;
-            color :black;
+            color: black;
             font-weight: bolder;
             font-size: 30px;
             width: 160px
         }
-        .bbutton{
+
+        .bbutton {
             position: fixed;
             bottom: 60px;
             right: 20px;
             cursor: pointer;
-            color :black;
+            color: black;
             font-weight: bolder;
             font-size: 30px;
             width: 160px;
@@ -59,15 +65,55 @@
 
 
     </style>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var username = [[${response.username}]];
+        var id = [[${response.id}]];
+        var userid =[[${user.id}]];
+    </script>
     <script>
+        $(document).ready(function () {
+            // HTML 문서를 로드할 때마다 실행합니다.
 
-        function deleteBlogg(id){
+        })
+
+        function getComments(id){
             $.ajax({
-                type : "DELETE",
-                url:"/api/blogs/" + id,
-                success: function(response){
+                type:"GET",
+                url:"api/comment",
+                success: function (response){
+                    for(let i=0; i<response.length;i++){
+                        let comment = response[i];
+                        console.log(comment.title);
+                        console.log(comment.content);
+                        console.log(comment.name);
+                    }
+                }
+            })
+        }
+        function createComments(){
+            let comment = $('#inputcomment').val();
+            console.log(comment,username,id);
+            let data = {"name":username, "content":comment};
+            $.ajax({
+                type:"POST",
+                url:"api/comment/" +id,
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success : function (response){
+                    alert("등록완료");
+                    window.location.reload();
+                }
+            })
+        }
+
+        function deleteBlogg(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "/api/blogs/" + id,
+                success: function (response) {
                     alert("삭제완료");
-                    window.location.href="/";
+                    window.location.href = "/";
                 }
             })
         }
@@ -80,12 +126,18 @@
     <div class="inheader"></div>
 </div>
 <diu class="content">
-<h1 th:text="'제목:'+ ${response.title}"></h1><br>
-<p class="username" th:text="'작성자:'+ ${response.username}"></p>
-<p class="username" th:text="'작성날짜:'+ ${response.modifiedAt}"></p><br>
-<h2>내용</h2>
-<p class="contents" th:text="${response.contents}"></p><br>
+    <h1 th:text="'제목:'+ ${response.title}"></h1><br>
+    <p class="username" th:text="'작성자:'+ ${response.username}"></p>
+    <p class="username" th:text="'작성날짜:'+ ${response.modifiedAt}"></p><br>
+    <p class="username" th:text="'블로그 id:'+ ${response.id}"></p><br>
+    <h2>내용</h2>
+    <p class="contents" th:text="${response.contents}"></p><br>
 </diu>
+<div class ="comment">
+    <input placeholder="댓글을 입력해주세요" id="inputcomment">
+    <p class="username" th:text="'작성자:'+ ${user.username}"></p>
+    <button onclick="createComments()">등록</button>
+</div>
 
 <button class="xbutton" th:onclick="|deleteBlogg(${response.id})|">지우기</button>
 <button class="bbutton" onclick="window.location.href='/'">뒤로가기</button>

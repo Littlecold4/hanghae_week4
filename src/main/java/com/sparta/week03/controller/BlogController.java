@@ -24,11 +24,11 @@ public class BlogController {
     }
 
 
-
     @GetMapping("/api/blogs")
     public List<Blog> readBlog() {
         return blogRepository.findAllByOrderByModifiedAtDesc();
     }
+
 
 //    @GetMapping("/datail/{id}")
 //    public ModelAndView readDetail3(@PathVariable Long id){
@@ -64,18 +64,18 @@ public class BlogController {
     }
 
 
-    @DeleteMapping("/api/blogs/{id}")
-    public Long deleteBlog(@PathVariable Long id) {
-        blogRepository.deleteById(id);
-        return id;
-    }
-
-
-    @PutMapping("/api/blogs/{id}")
-    public Long updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
-        blogService.update(id, requestDto);
-        return id;
-    }
+//    @DeleteMapping("/api/blogs/{id}")
+//    public Long deleteBlog(@PathVariable Long id) {
+//        blogRepository.deleteById(id);
+//        return id;
+//    }
+//
+//
+//    @PutMapping("/api/blogs/{id}")
+//    public Long updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
+//        blogService.update(id, requestDto);
+//        return id;
+//    }
 }
 
 

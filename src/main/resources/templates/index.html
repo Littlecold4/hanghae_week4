@@ -308,6 +308,11 @@
 
 
     </style>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var username = [[${username}]];
+        alert(message);
+    </script>
     <script>
         // 미리 작성된 영역 - 수정하지 않으셔도 됩니다.
         // 사용자가 내용을 올바르게 입력하였는지 확인합니다.
@@ -477,9 +482,9 @@
         // 메모를 생성합니다.
         function writePost() {
             // 1. 작성한 메모를 불러옵니다.
-            let username = $("#contents_name").val();
             let title = $('#contents_title').val();
             let contents = $('#contents_contents').val();
+            console.log(username);
             // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
             if (isValidContents(title) == false) {
                 alert("제목을 입력하세요");
@@ -517,6 +522,7 @@
 
 </div>
 <div class="background-body">
+
 
 </div>
 <div class="wrap" id="wrap">
