@@ -5,10 +5,8 @@ import com.sparta.week03.domain.User;
 import com.sparta.week03.domain.UserRoleEnum;
 import com.sparta.week03.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 import java.util.Optional;
 

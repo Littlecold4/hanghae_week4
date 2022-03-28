@@ -7,6 +7,7 @@ import com.sparta.week03.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -34,6 +35,18 @@ public class CommentService {
         return comment;
     }
     public List<Comment> getComments(Long blogId){
+
         return commentRepository.findAllByBlogId(blogId);
+    }
+
+    @Transactional
+    public Long update(Long id, CommentEditRequestDto requestDto){
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                ()->new NullPointerException("아이디기 존재하지 않습니다.")
+        );
+        String content = requestDto.getContent();
+        comment.setContent(content);
+        commentRepository.save(comment);
+        return id;
     }
 }

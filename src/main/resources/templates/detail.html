@@ -76,8 +76,8 @@
         $(document).ready(function () {
             // HTML 문서를 로드할 때마다 실행합니다.
             getComments(id);
-            console.log(id);
-            console.log(userid);
+            // console.log(id);
+            // console.log(userid);
             if(blogname !=username ){
                 $('#xbutton').hide();
             }
@@ -90,18 +90,16 @@
                 success: function (response){
                     for(let i=0; i<response.length;i++){
                         let comment = response[i];
-                        console.log(comment.content);
-                        console.log(comment.name);
                         let temp_html=``;
-                        if(blogname == username) {
-                            temp_html = `<div id="comment-box" class="comment-box" style="outline: black">
+                        if( comment["name"] == username) {
+                            temp_html = `<div id="comment-box-${comment.id}" class="comment-box" style="outline: black">
                                             <p>내용:${comment.content}</p>
                                             <p style="font-size: 5px">작성자 : ${comment.name}</p>
-                                            <button id="deletecomment">삭제</button>
-                                            <buttonid="updatecomment">수정</button>
+                                            <button id="deletecomment" onclick="updateC(${comment.id})">수정</button>
+                                            <button id="updatecomment" onclick="deleteComment(${comment.id})">삭제</button>
                                         </div>`
                         }else{
-                            temp_html =`<div id="comment-box" class="comment-box" style="outline: black">
+                            temp_html =`<div id="comment-box-${comment.id}" class="comment-box" style="outline: black">
                                             <p>내용:${comment.content}</p>
                                             <p style="font-size: 5px">작성자 : ${comment.name}</p>
                                         </div>`
@@ -111,40 +109,72 @@
                 }
             })
         }
-        function createComments(){
-            if(username==null){
+        function updateC(id){
+            console.log(id);
+            let temp_html =`<a onclick="ifnotlogin()"><input type=text id="updateinput" placeholder="입력하세요"></a>
+                            <button onclick="updateComment(${id})">수정</button>`
+            $(`#comment-box-${id}`).append(temp_html);
+        }
+
+        function ifnotlogin(){
+            console.log(username);
+            console.log("gg");
+            if (username == null) {
                 alert("로그인을 해주세요");
-                window.location.href="/user/login";
+                window.location.href = "/user/login";
             }
-            let comment = $('#inputcomment').val();
-            if(comment==null){
-                alert("내용을 입력해주세요");
-                window.location.reload();
-            }
-            console.log(comment,username,id);
-            let data = {"name":username, "content":comment};
+        }
+
+        function updateComment(id){
+            console.log(id);
+            let content = $('#updateinput').val();
+            let data = {"content":content};
             $.ajax({
-                type:"POST",
-                url:"api/comment/" +id,
+                type:"PUT",
+                url:"api/comment/"+id,
                 contentType: "application/json",
-                data: JSON.stringify(data),
-                success : function (response){
-                    alert("등록완료");
+                data:JSON.stringify(data),
+                success: function(response){
+                    alert("수정완료");
                     window.location.reload();
                 }
             })
         }
 
-        function deleteBlogg(id) {
+        function createComments() {
+            let comment = $('#inputcomment').val();
+            if (comment == "") {
+                alert("내용을 입력해주세요");
+                window.location.reload();
+            } else {
+                // console.log(comment,username,id);
+                let data = {"name": username, "content": comment};
+                $.ajax({
+                    type: "POST",
+                    url: "api/comment/" + id,
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        alert("등록완료");
+                        window.location.reload();
+                    }
+                })
+            }
+        }
+
+        function deleteComment(id){
+            // console.log(id);
             $.ajax({
-                type: "DELETE",
-                url: "/api/blogs/" + id,
-                success: function (response) {
-                    alert("삭제완료");
-                    window.location.href = "/";
+                type:"DELETE",
+                url:"/api/comment/"+id,
+                success: function(response){
+                    alert("삭제 완료");
+                    window.location.reload();
                 }
             })
         }
+
+
 
     </script>
 </head>

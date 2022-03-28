@@ -1,6 +1,7 @@
 package com.sparta.week03.controller;
 
 import com.sparta.week03.domain.Blog;
+import com.sparta.week03.domain.Comment;
 import com.sparta.week03.domain.User;
 import com.sparta.week03.repository.BlogRepository;
 import com.sparta.week03.security.UserDetailsImpl;
