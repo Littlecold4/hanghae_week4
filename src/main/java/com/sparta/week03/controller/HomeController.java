@@ -11,7 +11,7 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if(userDetails == null){
-            model.addAttribute("username", "로그인을 해주세요");
+            model.addAttribute("username", "");
             return "index";
         }
         model.addAttribute("username", userDetails.getUsername());

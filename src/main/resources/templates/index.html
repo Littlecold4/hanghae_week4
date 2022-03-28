@@ -380,7 +380,7 @@
             $('#logout-text').show();
             $('#postbtn').show();
             console.log(username);
-            if(username == "로그인을 해주세요"){
+            if(username == ""){
                 $('#loginbtn').show();
                 $('#logout-text').hide();
                 $('#postbtn').hide();
@@ -544,11 +544,10 @@
 <div class="wrap" id="wrap">
     <div class="header">
         <div id="header-title-login-user">
-            <span th:text="${username}"></span> 님의 블로그
+            <span th:unless="${username.toString().equals('')}" th:text="${username}+'님의 블로그'"></span>
         </div>
-        <p>
-            장민우님의 블로그입니다
-            24시간이 지난 뒤에는 절대 사라지지 않습니다.
+        <p style="font-size : 60px">
+            HAPPY Blog
         </p>
         <form id="my_form" method="post" action="/user/logout">
             <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>

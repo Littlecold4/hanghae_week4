@@ -63,14 +63,13 @@
             width: 160px;
         }
 
-
     </style>
     <script th:inline="javascript">
         /*<![CDATA[*/
         var blogname = [[${response.username}]];
         var id = [[${response.id}]];
-        var username =[[${user.username}]];
-        var userid =[[${user.id}]];
+        var username = [[${user.username}]];
+        var userid = [[${user.id}]];
     </script>
     <script>
         $(document).ready(function () {
@@ -78,28 +77,28 @@
             getComments(id);
             // console.log(id);
             // console.log(userid);
-            if(blogname !=username ){
+            if (blogname != username) {
                 $('#xbutton').hide();
             }
         })
 
-        function getComments(id){
+        function getComments(id) {
             $.ajax({
-                type:"GET",
-                url:"api/comment/"+id,
-                success: function (response){
-                    for(let i=0; i<response.length;i++){
+                type: "GET",
+                url: "api/comment/" + id,
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
                         let comment = response[i];
-                        let temp_html=``;
-                        if( comment["name"] == username) {
+                        let temp_html = ``;
+                        if (comment["name"] == username) {
                             temp_html = `<div id="comment-box-${comment.id}" class="comment-box" style="outline: black">
                                             <p>내용:${comment.content}</p>
                                             <p style="font-size: 5px">작성자 : ${comment.name}</p>
                                             <button id="deletecomment" onclick="updateC(${comment.id})">수정</button>
                                             <button id="updatecomment" onclick="deleteComment(${comment.id})">삭제</button>
                                         </div>`
-                        }else{
-                            temp_html =`<div id="comment-box-${comment.id}" class="comment-box" style="outline: black">
+                        } else {
+                            temp_html = `<div id="comment-box-${comment.id}" class="comment-box" style="outline: black">
                                             <p>내용:${comment.content}</p>
                                             <p style="font-size: 5px">작성자 : ${comment.name}</p>
                                         </div>`
@@ -109,14 +108,18 @@
                 }
             })
         }
-        function updateC(id){
+
+        function updateC(id) {
             console.log(id);
-            let temp_html =`<a onclick="ifnotlogin()"><input type=text id="updateinput" placeholder="입력하세요"></a>
-                            <button onclick="updateComment(${id})">수정</button>`
+            $('#comment-box-' + id).empty();
+            // $('#comment-box-'+id).addClass("hidden");
+            let temp_html = `<input type=text id="updateinput" placeholder="입력하세요">
+                            <button onclick="updateComment(${id})">수정</button>
+                            <button onclick="$('#comment-box-'+id).show()">취소</button>`
             $(`#comment-box-${id}`).append(temp_html);
         }
 
-        function ifnotlogin(){
+        function ifnotlogin() {
             console.log(username);
             console.log("gg");
             if (username == null) {
@@ -125,20 +128,26 @@
             }
         }
 
-        function updateComment(id){
+        function updateComment(id) {
             console.log(id);
             let content = $('#updateinput').val();
-            let data = {"content":content};
-            $.ajax({
-                type:"PUT",
-                url:"api/comment/"+id,
-                contentType: "application/json",
-                data:JSON.stringify(data),
-                success: function(response){
-                    alert("수정완료");
-                    window.location.reload();
-                }
-            })
+            if (content == "") {
+                alert("내용을 입력하세요");
+                window.location.reload();
+            } else {
+                $('#comment-box-'+id).remove();
+                let data = {"content": content};
+                $.ajax({
+                    type: "PUT",
+                    url: "api/comment/" + id,
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        alert("수정완료");
+                        window.location.reload();
+                    }
+                })
+            }
         }
 
         function createComments() {
@@ -162,18 +171,20 @@
             }
         }
 
-        function deleteComment(id){
-            // console.log(id);
-            $.ajax({
-                type:"DELETE",
-                url:"/api/comment/"+id,
-                success: function(response){
-                    alert("삭제 완료");
-                    window.location.reload();
-                }
-            })
+        function deleteComment(id) {
+            if (!confirm("정말로 삭제하시겠습니까?")) {
+                window.location.reload();
+            } else {
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/comment/" + id,
+                    success: function (response) {
+                        alert("삭제 완료");
+                        window.location.reload();
+                    }
+                })
+            }
         }
-
 
 
     </script>
@@ -190,15 +201,16 @@
     <h2>내용</h2>
     <p class="contents" th:text="${response.contents}"></p><br>
 </diu>
-<div class ="comment">
-    <input placeholder="댓글을 입력해주세요" id="inputcomment" class ="inputcomment">
+<div class="comment">
+    <input placeholder="댓글을 입력해주세요" id="inputcomment" class="inputcomment" onclick="ifnotlogin()">
     <p class="username" th:text="'작성자:'+ ${user.username}"></p>
     <button onclick="createComments()">등록</button>
     <div id="comment-list">
     </div>
+
 </div>
 
 <button class="xbutton" id="xbutton" th:onclick="|deleteBlogg(${response.id})|">지우기</button>
-<button class="bbutton"  onclick="window.location.href='/'">뒤로가기</button>
+<button class="bbutton" onclick="window.location.href='/'">뒤로가기</button>
 </body>
 </html>

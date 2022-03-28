@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @GetMapping("/user/kakao/callback")
-    public String kakapLogin(@RequestParam String code) throws JsonProcessingException {
+    public String kakaoLogin(@RequestParam String code) throws JsonProcessingException {
         kakaoUserService.kakaoLogin(code);
         return "redirect:/";
     }
