@@ -62,6 +62,21 @@
             font-size: 30px;
             width: 160px;
         }
+        .inputcomment{
+            width: 40%;
+            height: 100px;
+            top: 450px;
+
+        }
+        .comment-box{
+            width: 40%;
+            border-style: dot-dash;
+            border-radius: 20px;
+            border-color: #00aaff;
+            background-color: lightgray;
+            padding: 5px;
+            margin:5px;
+        }
 
     </style>
     <script th:inline="javascript">
@@ -75,8 +90,6 @@
         $(document).ready(function () {
             // HTML 문서를 로드할 때마다 실행합니다.
             getComments(id);
-            // console.log(id);
-            // console.log(userid);
             if (blogname != username) {
                 $('#xbutton').hide();
             }
@@ -91,14 +104,14 @@
                         let comment = response[i];
                         let temp_html = ``;
                         if (comment["name"] == username) {
-                            temp_html = `<div id="comment-box-${comment.id}" class="comment-box" style="outline: black">
+                            temp_html = `<div id="comment-box-${comment.id}" class="comment-box" >
                                             <p>내용:${comment.content}</p>
                                             <p style="font-size: 5px">작성자 : ${comment.name}</p>
                                             <button id="deletecomment" onclick="updateC(${comment.id})">수정</button>
                                             <button id="updatecomment" onclick="deleteComment(${comment.id})">삭제</button>
                                         </div>`
                         } else {
-                            temp_html = `<div id="comment-box-${comment.id}" class="comment-box" style="outline: black">
+                            temp_html = `<div id="comment-box-${comment.id}" class="comment-box">
                                             <p>내용:${comment.content}</p>
                                             <p style="font-size: 5px">작성자 : ${comment.name}</p>
                                         </div>`
@@ -203,7 +216,6 @@
 </diu>
 <div class="comment">
     <input placeholder="댓글을 입력해주세요" id="inputcomment" class="inputcomment" onclick="ifnotlogin()">
-    <p class="username" th:text="'작성자:'+ ${user.username}"></p>
     <button onclick="createComments()">등록</button>
     <div id="comment-list">
     </div>

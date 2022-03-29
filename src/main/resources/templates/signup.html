@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -10,7 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>회원가입 페이지</title>
+<!--    <script th:inline="javascript">-->
+<!--        var username = [[${username}]];-->
+<!--    </script>-->
     <script>
         function onclickAdmin() {
             // Get the checkbox
@@ -25,18 +29,42 @@
                 box.style.display = "none";
             }
         }
+
+        // function checkId(){
+        //     let username = $('#username').val();
+        //     let data ={"username":username};
+        //     console.log(username);
+        //     $.ajax({
+        //         type:'POST',
+        //         url:"api/idcheck",
+        //         contentType: "application/json",
+        //         data : JSON.stringify(data),
+        //         success: function (response){
+        //             console.log("success");
+        //             alert(response);
+        //         }
+        //     })
+        // }
     </script>
+
 </head>
 <body>
+<script th:inline="javascript">
+    var message = [[${msg}]];
+    if(message!=null){
+        alert(message);
+    }
+</script>
 <div id="login-form">
     <div id="login-title">Sign up Select Shop</div>
-
     <form action="/user/signup" method="post">
+
         <div class="login-id-label">Username</div>
-        <input type="text" name="username" placeholder="Username" class="login-input-box">
+        <input type="text" name="username" id="username" placeholder="Username" class="login-input-box">
 
         <div class="login-id-label">Password</div>
-        <input type="password" name="password" class="login-input-box">
+        <input type="password" name="password" placeholder="password" class="login-input-box">
+        <input type="password" name="passwordCheck" placeholder="password check" class="login-input-box">
 
         <div class="login-id-label">E-mail</div>
         <input type="text" name="email" placeholder="E-mail" class="login-input-box">

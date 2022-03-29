@@ -546,11 +546,11 @@
         <div id="header-title-login-user">
             <span th:unless="${username.toString().equals('')}" th:text="${username}+'님의 블로그'"></span>
         </div>
-        <p style="font-size : 60px">
+        <p style="font-size : 40px">
             HAPPY Blog
         </p>
         <form id="my_form" method="post" action="/user/logout">
-            <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>
+            <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();" style="color: white; font-size: 20px; font-weight: bolder">로그아웃</a>
         </form>
         <button id="postbtn" onclick="showpost()">게시글 작성하기</button>
     </div>
@@ -562,7 +562,7 @@
         <textarea class="field" placeholder="내용" name="contents" id="contents_contents" cols="30"
                   rows="10"></textarea>
         <!--            <button class="btn btn-danger" onclick="writePost()">작성하기</button>-->
-        <p alt="" onclick="writePost()" style="background-color: white; color: black; cursor: pointer">등록</p>
+        <button alt="" onclick="writePost()" style="background-color: white; color: black; cursor: pointer; margin: auto">등록</button>
     </div>
     <div id="cards-box" class="area-read">
     </div>
