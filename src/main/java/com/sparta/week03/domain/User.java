@@ -1,12 +1,7 @@
 package com.sparta.week03.domain;
 
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.persistence.*;
-
+import com.sparta.week03.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,6 +36,12 @@ public class User {
 
     @Column(unique = true)
     private Long kakaoId;
+
+    public User(SignupRequestDto requestDto, Long Id) {
+        this.username = requestDto.getUsername();
+        this.password= requestDto.getPassword();
+        this.email= requestDto.getEmail();
+    }
 
     public User(String username, String password, String email, UserRoleEnum role) {
         this.username = username;
