@@ -1,9 +1,11 @@
 package com.sparta.week03.controller;
 
-import com.sparta.week03.Service.BlogService;
 import com.sparta.week03.domain.Blog;
+import com.sparta.week03.domain.BlogNice;
+import com.sparta.week03.dto.NiceRequestDto;
 import com.sparta.week03.repository.BlogRepository;
 import com.sparta.week03.dto.BlogRequestDto;
+import com.sparta.week03.repository.NiceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +15,7 @@ import java.util.List;
 @RestController
 public class BlogController {
     private final BlogRepository blogRepository;
-    private final BlogService blogService;
+    private final NiceRepository niceRepository;
 
 
     @PostMapping("/api/blogs")
@@ -23,12 +25,27 @@ public class BlogController {
         return blog;
     }
 
-
     @GetMapping("/api/blogs")
     public List<Blog> readBlog() {
-
         return blogRepository.findAllByOrderByModifiedAtDesc();
     }
+
+    @GetMapping("/api/niceblog/{Blogid}")
+    public List<BlogNice> howmanynice(@PathVariable Long Blogid){
+        return niceRepository.findAllByBlogId(Blogid);
+    }
+
+    @PostMapping("/api/niceblog")
+    public void pressNice(@RequestBody NiceRequestDto requestDto){
+        BlogNice blogNice = new BlogNice(requestDto);
+        niceRepository.save(blogNice);
+    }
+
+    @DeleteMapping("/api/niceblog/{id}")
+    public void deleteNice(@PathVariable Long id){
+        niceRepository.deleteById(id);
+    }
+
 
 
 //    @GetMapping("/datail/{id}")

@@ -16,5 +16,4 @@ public class CommentRequestDto {
 
     @Column(nullable = false)
     private String content;
-
 }
