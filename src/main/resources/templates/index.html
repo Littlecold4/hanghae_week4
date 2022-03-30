@@ -407,6 +407,7 @@
                 type: "GET",
                 url: "/api/blogs",
                 success: function (response) {
+                    console.log(response);
                     for (let i = 0; i < response.length; i++) {
                         let blog = response[i];
                         let id = blog.id;
@@ -419,20 +420,15 @@
                             type : "GET",
                             url:"/api/niceblog/"+id,
                             success: function(response){
-                                console.log(response);
                                 nices = response.length;
                                 let cnt = 0;
                                 var niceid=0;
                                 for(let i=0; i<nices; i++){
                                     if(response[i].username == username){
-                                        console.log(response[i].username);
-                                        console.log(username);
                                         cnt++;
-                                        console.log(cnt);
                                         niceid = response[i].id;
                                     }
                                 }
-                                console.log(username);
                                 if (username == "") {
                                     nices="로그인 후 확인 가능";
                                 }
@@ -447,19 +443,6 @@
                 }
             })
         }
-        function deleteBlog(id){
-            $.ajax({
-                type : "DELETE",
-                url:"/api/niceblog/" + id,
-                success: function(response){
-                    alert("삭제완료");
-                    window.location.reload();
-                }
-            })
-        }
-
-
-
         // 메모 하나를 HTML로 만들어서 body 태그 내 원하는 곳에 붙입니다.
         function addHTML1(id, title, username, contents, modifiedAt, nices) {
             // console.log(nices);

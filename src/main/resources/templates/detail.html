@@ -128,7 +128,7 @@
             // $('#comment-box-'+id).addClass("hidden");
             let temp_html = `<input type=text id="updateinput" placeholder="입력하세요">
                             <button onclick="updateComment(${id})">수정</button>
-                            <button onclick="$('#comment-box-'+id).show()">취소</button>`
+                            <button onclick="window.location.reload()">취소</button>`
             $(`#comment-box-${id}`).append(temp_html);
         }
 
@@ -198,6 +198,18 @@
                 })
             }
         }
+
+        function deleteBlogg(id) {
+            $.ajax({
+                type : "DELETE",
+                url :"/api/blogs/"+id,
+                success: function (response){
+                    alert("삭제완료");
+                    window.location.href="/";
+                }
+            })
+        }
+
 
 
     </script>

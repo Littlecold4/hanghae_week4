@@ -27,7 +27,7 @@ public class BlogController {
 
     @GetMapping("/api/blogs")
     public List<Blog> readBlog() {
-        return blogRepository.findAllByOrderByModifiedAtDesc();
+        return blogRepository.findAllByOrderByCreatedAtDesc();
     }
 
     @GetMapping("/api/niceblog/{Blogid}")
@@ -82,11 +82,11 @@ public class BlogController {
     }
 
 
-//    @DeleteMapping("/api/blogs/{id}")
-//    public Long deleteBlog(@PathVariable Long id) {
-//        blogRepository.deleteById(id);
-//        return id;
-//    }
+    @DeleteMapping("/api/blogs/{id}")
+    public Long deleteBlog(@PathVariable Long id) {
+        blogRepository.deleteById(id);
+        return id;
+    }
 //
 //
 //    @PutMapping("/api/blogs/{id}")
