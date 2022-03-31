@@ -45,5 +45,10 @@ public class CommentController {
         return commentService.update(blogId,requestDto);
     }
 
+    @GetMapping("/api/comments/many/{id}")
+    public List<Comment> howmanycomments(@PathVariable Long id){
+        return commentRepository.findAllByBlogId(id);
+    }
+
 }
 

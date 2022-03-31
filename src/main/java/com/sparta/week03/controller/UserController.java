@@ -3,7 +3,9 @@ package com.sparta.week03.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.week03.Service.KakaoUserService;
 import com.sparta.week03.Service.UserService;
+import com.sparta.week03.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,14 @@ public class UserController {
 
     // 회원 로그인 페이지
     @GetMapping("/user/login")
-    public String login() {
+    public String login(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                        Model model) {
+        if(userDetails !=null){
+            model.addAttribute("loggedin",true);
+            model.addAttribute("message","이미로그인하셨습니다");
+        }else{
+            model.addAttribute("loggedin", false);
+        }
         return "login";
     }
 

@@ -429,14 +429,22 @@
                                         niceid = response[i].id;
                                     }
                                 }
-                                if (username == "") {
-                                    nices="로그인 후 확인 가능";
-                                }
-                                if(cnt==0){
-                                    addHTML1(id, title, username_b, contents, modifiedAt,nices);
-                                }else{
-                                    addHTML2(id, title, username_b, contents, modifiedAt,nices,niceid);
-                                }
+                                $.ajax({
+                                    type:"GET",
+                                    url:"/api/comments/many/"+id,
+                                    success:function (response){
+                                        console.log(response);
+                                        if (username == "") {
+                                            nices="로그인 후 확인 가능";
+                                        }
+                                        let commentss = response.length;
+                                        if(cnt==0){
+                                            addHTML1(id, title, username_b, contents, modifiedAt,nices,commentss);
+                                        }else{
+                                            addHTML2(id, title, username_b, contents, modifiedAt,nices,niceid,commentss);
+                                        }
+                                    }
+                                })
                             }
                         })
                     }
@@ -444,7 +452,7 @@
             })
         }
         // 메모 하나를 HTML로 만들어서 body 태그 내 원하는 곳에 붙입니다.
-        function addHTML1(id, title, username, contents, modifiedAt, nices) {
+        function addHTML1(id, title, username, contents, modifiedAt, nices,commentss) {
             // console.log(nices);
             let temp_html = `<div class="card" style="cursor: pointer" onclick="window.location.href='/detail/${id}'">
                                 <!-- date/username 영역 -->
@@ -473,10 +481,11 @@
                             <div id="nicebox">
                               <button style="float" onclick="pressNice(${id})" class="nicebtn" id="nicebtn-${id}">좋아용</button>
                               <div>${nices}</div>
+                              <div>댓글수 : ${commentss}</div>
                             </div>`
             $('#cards-box').append(temp_html);
         }
-        function addHTML2(id, title, username, contents, modifiedAt, nices,niceid) {
+        function addHTML2(id, title, username, contents, modifiedAt, nices,niceid,commentss) {
             let temp_html = `<div class="card" style="cursor: pointer" onclick="window.location.href='/detail/${id}'">
                                 <!-- date/username 영역 -->
                                 <div class="title">
@@ -504,6 +513,7 @@
                             <div id="nicebox">
                               <button style="float" onclick="UnpressNice(${niceid})" class="nicebtn-pressed" id="nicebtn-${id}" >좋아용</button>
                               <div>${nices}</div>
+                              <div>댓글수 : ${commentss}</div>
                             </div>`
             $('#cards-box').append(temp_html);
         }
